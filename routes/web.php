@@ -11,10 +11,28 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+
+
+/*Route::get('/', function(){
+
+    return redirect()->route('all_tasks');
+});*/
+
+Route::get('/', 'ProjectController@index')
+    ->middleWare('auth')
+    ->name('all_projects');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['prefix' => 'task'],
+    function ()
+    {
+        Route::get('/all', 'TaskController@index')
+            ->middleWare('auth')
+            ->name('all_tasks');
+    }
+);
