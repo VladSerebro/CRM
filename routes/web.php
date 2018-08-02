@@ -15,16 +15,32 @@
 
 
 
-/*Route::get('/', function(){
+Route::get('/', function(){
 
-    return redirect()->route('all_tasks');
-});*/
-
-Route::get('/', 'ProjectController@index')
-    ->middleWare('auth')
-    ->name('all_projects');
+    return redirect()->route('all_projects');
+});
 
 Auth::routes();
+
+
+
+
+
+Route::group(['prefix' => 'project'],
+    function ()
+    {
+        Route::get('/all', 'ProjectController@index')
+            ->middleWare('auth')
+            ->name('all_projects');
+
+        Route::match(['get', 'post'], '/new', 'ProjectController@create')
+            ->middleWare('auth')
+            ->name('new_project');
+    }
+);
+
+
+
 
 
 

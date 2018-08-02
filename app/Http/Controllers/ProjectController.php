@@ -18,4 +18,14 @@ class ProjectController extends Controller
             'projects' => $projects
         ]);
     }
+
+    public function create(Request $request)
+    {
+        if($request->isMethod('post'))
+        {
+            $this->validate($request,[
+
+            ]);
+        }
+    }
 }
