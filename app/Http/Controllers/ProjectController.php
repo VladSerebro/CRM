@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Project as Project;
+use App\Task as Task;
 use App\User as User;
 use App\Status as Status;
 
@@ -45,5 +46,21 @@ class ProjectController extends Controller
             'users' => $users,
             'statuses' => $statuses
             ]);
+    }
+
+    public function view(Request $request, $id)
+    {
+        $project = Project::with('status', 'master', 'tasks')->find($id);
+
+        return view('projects.view',[
+            'project' => $project,
+            'request' => $request
+        ]);
+    }
+
+    public function delete(Request $request, $id)
+    {
+        Project::destroy($id);
+        return redirect()->route('all_projects');
     }
 }

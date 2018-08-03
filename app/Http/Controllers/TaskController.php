@@ -10,13 +10,23 @@ use App\Project as Project;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function view(Request $request, $id)
     {
-        $tasks = Project::with('master', 'status', 'tasks')->get();
 
-        return view('tasks.index',[
-            'tasks' => $tasks
+        $task = Task::with('master', 'performer', 'status')->find($id);
+
+        return view('tasks.view', [
+            'task' => $task
         ]);
+    }
+
+    public function delete($id)
+    {
+        $task = Task::with('project')->find($id);
+        $project_id = $task->project->id;
+
+        Task::destroy($id);
+        return redirect()->route('view_project', ['id' => $project_id]);
     }
 
 

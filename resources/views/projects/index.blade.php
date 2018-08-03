@@ -24,7 +24,7 @@
                             @foreach ($projects as $project)
                                 <tr>
                                     <td>{{$i++}}</td>
-                                    <td><a href="{{--{{ route('view_task', ['id' => $task->id]) }}--}}">{{ $project->title }}</a></td>
+                                    <td><a href="{{ route('view_project', ['id' => $project->id]) }}">{{ $project->title }}</a></td>
                                     <td>{{ $project->master->name }}</td>
                                     <td>{{ $project->status->name }}</td>
                                 </tr>

@@ -37,22 +37,27 @@ Route::group(['prefix' => 'project'],
             ->middleWare('auth')
             ->name('new_project');
 
-        Route::get('/view/{id}', 'ProojectController@view')
+        Route::get('/view/{id}', 'ProjectController@view')
             ->middleWare('auth')
             ->name('view_project');
+
+        Route::delete('delete/{id}', 'ProjectController@delete')
+            ->middleWare('auth')
+            ->name('delete_project');
     }
 );
-
-
-
 
 
 
 Route::group(['prefix' => 'task'],
     function ()
     {
-        Route::get('/all', 'TaskController@index')
+        Route::get('/view/{id}', 'TaskController@view')
             ->middleWare('auth')
-            ->name('all_tasks');
+            ->name('view_task');
+
+        Route::delete('delete/{id}', 'TaskController@delete')
+            ->middleWare('auth')
+            ->name('delete_task');
     }
 );
