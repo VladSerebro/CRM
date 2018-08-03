@@ -26,10 +26,12 @@
                                     Delete project
                                 </button>
                             </form>
+
+                            <a class="btn btn-primary" href = "{{ route('new_task', ['project_id' => $project->id])}}">
+                                Add task
+                            </a>
                         @endif
                     </div>
-
-
 
                     @foreach($project->tasks as $task)
                         <div>
@@ -48,23 +50,7 @@
                                         Delete
                                     </button>
                                 </form>
-
-
-
-
-
-
-
-
-                            {{--    <a class="btn btn-danger" href = "{{ route('delete_task', [
-                                'id' => $task->id,
-                                'project_id' => $project->id
-                                ]) }}">
-                                    Delete
-                                </a>--}}
                             @endif
-
-
 
                         </div>
                     @endforeach

@@ -59,5 +59,9 @@ Route::group(['prefix' => 'task'],
         Route::delete('delete/{id}', 'TaskController@delete')
             ->middleWare('auth')
             ->name('delete_task');
+
+        Route::match(['get', 'post'], '/new/{project_id}', 'TaskController@create')
+            ->middleWare('auth')
+            ->name('new_task');
     }
 );
