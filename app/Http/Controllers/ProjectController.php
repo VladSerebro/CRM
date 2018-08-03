@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Project as Project;
-use App\Task as Task;
 use App\User as User;
 use App\Status as Status;
 
@@ -23,9 +22,28 @@ class ProjectController extends Controller
     {
         if($request->isMethod('post'))
         {
-            $this->validate($request,[
-
+            $this->validate($request, [
+                'title' => 'required|string|max:255',
+                'description' => 'required|string|max:255',
+                'status' => 'required|numeric'
             ]);
+
+            Project::create([
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'status_id' => $request->input('status'),
+                'master_id' => $request->user()->id
+            ]);
+
+            return redirect()->route('all_projects');
         }
+
+        $users = User::all();
+        $statuses = Status::all();
+
+        return view('projects.create', [
+            'users' => $users,
+            'statuses' => $statuses
+            ]);
     }
 }

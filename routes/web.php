@@ -36,6 +36,10 @@ Route::group(['prefix' => 'project'],
         Route::match(['get', 'post'], '/new', 'ProjectController@create')
             ->middleWare('auth')
             ->name('new_project');
+
+        Route::get('/view/{id}', 'ProojectController@view')
+            ->middleWare('auth')
+            ->name('view_project');
     }
 );
 
