@@ -7,7 +7,9 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <p><b>{{$task->title}}</b></p>
+                        <div class="alert alert-dark" role="alert">
+                            <b>{{ $task->title }}</b>
+                        </div>
                     </div>
                     <div class="panel-body">
                         <p>{{$task->description}}</p>
@@ -19,16 +21,20 @@
                         <p><b>Created at:</b> {{$task->created_at}}</p>
 
                         @if($request->user()->id === $task->master->id)
-                            <form action="{{ route('delete_task', ['id' => $task->id]) }}" method="post">
-                                {!! method_field('delete') !!}
-                                {!! csrf_field() !!}
-                                <button type="submit" class="btn btn-danger">
-                                    Delete
-                                </button>
-                            </form>
-                            <a class="btn btn-primary" href = "{{ route('edit_task', ['id' => $task->id]) }}">
-                                Edit
-                            </a>
+                            <div class="row">
+                                <form action="{{ route('delete_task', ['id' => $task->id]) }}" method="post" class="col-sm-2">
+                                    {!! method_field('delete') !!}
+                                    {!! csrf_field() !!}
+                                    <button type="submit" class="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </form>
+                                <div class="col-sm-5">
+                                    <a class="btn btn-primary" href = "{{ route('edit_task', ['id' => $task->id]) }}">
+                                        Edit
+                                    </a>
+                                </div>
+                            </div>
                         @endif
 
                     </div>
