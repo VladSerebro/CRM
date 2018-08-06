@@ -43,6 +43,11 @@
                             <a class="nav-link" href="{{ route('my_projects') }}">My projects <span class="sr-only">(current)</span></a>
                         </li>
 
+                        @yield('navBarInsert')
+                        {{--@section('navBarInsert')
+
+                        @endsection--}}
+
 
 
                     </ul>

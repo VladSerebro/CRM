@@ -63,26 +63,29 @@
                     </div>
 
                         {{--Tasks--}}
+                    <div class="pt-5">
                         <table class="table table-hover">
                             <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Performer</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
+                            <tr>
+                                <th scope="col">Title</th>
+                                <th scope="col">Performer</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                @foreach($project->tasks as $task)
-                                        <tr>
-                                            <td scope="col">{{ $task->title }}</td>
-                                            <td scope="col">{{ $task->performer->name }}</td>
-                                            <td scope="col">{{ $task->status->name }}</td>
-                                            <td scope="col"><a href="{{ route('view_task', ['id' => $task->id]) }}">View</a></td>
-                                        </tr>
-                                @endforeach
+                            @foreach($project->tasks as $task)
+                                <tr>
+                                    <td scope="col">{{ $task->title }}</td>
+                                    <td scope="col">{{ $task->performer->name }}</td>
+                                    <td scope="col">{{ $task->status->name }}</td>
+                                    <td scope="col"><a href="{{ route('view_task', ['id' => $task->id]) }}">View</a></td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
+                    </div>
+
 
 
 

@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@section('navBarInsert')
+    <li class="nav-item @if (Request::url() == route('my_projects')) active @endif ">
+        <a class="nav-link" href="{{ route('view_project', ['id'=>$task->project->id]) }}">To: {{ $task->project->title }} <span class="sr-only">(current)</span></a>
+    </li>
+@endsection
+
+
 @section('content')
 
     <div class="container">
