@@ -18,7 +18,63 @@
                             <b>{{ $task->title }}</b>
                         </div>
                     </div>
-                    <div class="panel-body">
+
+
+                    <div>
+                        <table>
+                           <tbody>
+                                <tr class="table-hover">
+                                    <td><b>Description: </b></td>
+                                    <td><i>{{ $task->description }}</i></td>
+                                </tr>
+                                <tr @switch($task->status->id)
+                                        @case(1) class="text-primary" @break
+                                        @case(2) class="text-warning" @break
+                                        @case(3) class="text-danger" @break
+                                        @case(4) class="text-success" @break
+                                    @endswitch>
+                                    <td><b>Status: </b></td>
+                                    <td>{{ $task->status->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Master: </b></td>
+                                    <td>{{ $task->master->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Performer: </b></td>
+                                    <td>{{ $task->performer->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Updated at: </b></td>
+                                    <td>{{ $task->updated_at }}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Created at: </b></td>
+                                    <td>{{ $task->created_at }}</td>
+                                </tr>
+                           </tbody>
+                        </table>
+                    </div>
+
+                    @if($request->user()->id === $task->master->id)
+                        <div class="row pt-5">
+                            <form action="{{ route('delete_task', ['id' => $task->id]) }}" method="post" class="col-sm-2">
+                                {!! method_field('delete') !!}
+                                {!! csrf_field() !!}
+                                <button type="submit" class="btn btn-danger">
+                                    Delete
+                                </button>
+                            </form>
+                            <div class="col-sm-3">
+                                <a class="btn btn-primary" href = "{{ route('edit_task', ['id' => $task->id]) }}">
+                                    Edit
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+
+
+                    {{--<div class="panel-body">
                         <p>{{$task->description}}</p>
                         <p><b>Status:</b> {{ $task->status->name }}</p>
                         <p><b>Master:</b> {{ $task->master->name }}</p>
@@ -43,8 +99,10 @@
                                 </div>
                             </div>
                         @endif
+                    </div>--}}
 
-                    </div>
+
+
                 </div>
             </div>
         </div>
