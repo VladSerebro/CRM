@@ -19,6 +19,19 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function my_index(Request $request)
+    {
+        $my_id = $request->user()->id;
+
+        $projects = Project::where(['master_id'=> $my_id])
+            -> with('master', 'status', 'tasks')
+            ->get();
+
+        return view('projects.index',[
+            'projects' => $projects
+        ]);
+    }
+
     public function create(Request $request)
     {
         if($request->isMethod('post'))

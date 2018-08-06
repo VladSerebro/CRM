@@ -35,6 +35,16 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
 
+                        <li class="nav-item @if (Request::url() == route('all_projects')) active @endif ">
+                            <a class="nav-link" href="{{ route('all_projects') }}">All projects <span class="sr-only">(current)</span></a>
+                        </li>
+
+                        <li class="nav-item @if (Request::url() == route('my_projects')) active @endif ">
+                            <a class="nav-link" href="{{ route('my_projects') }}">My projects <span class="sr-only">(current)</span></a>
+                        </li>
+
+
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->

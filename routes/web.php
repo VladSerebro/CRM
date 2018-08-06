@@ -33,6 +33,10 @@ Route::group(['prefix' => 'project'],
             ->middleWare('auth')
             ->name('all_projects');
 
+        Route::get('/my_projects', 'ProjectController@my_index')
+            ->middleWare('auth')
+            ->name('my_projects');
+
         Route::match(['get', 'post'], '/new', 'ProjectController@create')
             ->middleWare('auth')
             ->name('new_project');

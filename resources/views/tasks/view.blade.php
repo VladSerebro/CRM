@@ -17,18 +17,19 @@
 
                         <p><b>Updated at:</b> {{$task->updated_at}}</p>
                         <p><b>Created at:</b> {{$task->created_at}}</p>
-                        <form action="{{ route('delete_task', ['id' => $task->id]) }}" method="post">
-                            {!! method_field('delete') !!}
-                            {!! csrf_field() !!}
-                            <button type="submit" class="btn btn-danger">
-                                Delete
-                            </button>
-                        </form>
-                        <a class="btn btn-primary" href = "{{ route('edit_task', ['id' => $task->id]) }}">
-                            Edit
-                        </a>
 
-
+                        @if($request->user()->id === $task->master->id)
+                            <form action="{{ route('delete_task', ['id' => $task->id]) }}" method="post">
+                                {!! method_field('delete') !!}
+                                {!! csrf_field() !!}
+                                <button type="submit" class="btn btn-danger">
+                                    Delete
+                                </button>
+                            </form>
+                            <a class="btn btn-primary" href = "{{ route('edit_task', ['id' => $task->id]) }}">
+                                Edit
+                            </a>
+                        @endif
 
                     </div>
                 </div>

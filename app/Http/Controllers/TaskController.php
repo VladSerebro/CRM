@@ -16,7 +16,8 @@ class TaskController extends Controller
         $task = Task::with('master', 'performer', 'status')->find($id);
 
         return view('tasks.view', [
-            'task' => $task
+            'task' => $task,
+            'request' => $request
         ]);
     }
 
