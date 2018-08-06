@@ -36,8 +36,8 @@
                     @foreach($project->tasks as $task)
                         <div>
 
-                            {{ $task->master->name }} -->
-                            {{ $task->title }}
+                            {{ $task->performer->name }} --> {{ $task->title }}
+
 
                             <a class="btn btn-primary" href = "{{ route('view_task', ['id' => $task->id]) }}">
                                  View

@@ -24,6 +24,9 @@
                                 Delete
                             </button>
                         </form>
+                        <a class="btn btn-primary" href = "{{ route('edit_task', ['id' => $task->id]) }}">
+                            Edit
+                        </a>
 
 
 

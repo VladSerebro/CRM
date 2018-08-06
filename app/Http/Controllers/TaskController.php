@@ -40,8 +40,6 @@ class TaskController extends Controller
                 'status' => 'required|numeric'
             ]);
 
-            //var_dump($project_id); exit;
-
             Task::create([
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
@@ -55,18 +53,51 @@ class TaskController extends Controller
 
         }
 
-
         $users = User::all();
         $statuses = Status::all();
         $project = Project::find($project_id);
 
-
         return view('tasks.create',[
-           'users' => $users,
-           'statuses' => $statuses,
+            'users' => $users,
+            'statuses' => $statuses,
             'project' => $project
         ]);
     }
 
 
+    public function edit(Request $request, $id)
+    {
+        $task = Task::find($id);
+
+        if($request->isMethod('post'))
+        {
+            $this->validate($request, [
+                'title' => 'required|string|max:255',
+                'description' => 'required|string|max:255',
+                'performer' => 'required|string|max:255',
+                'status' => 'required|numeric'
+            ]);
+
+            $task->title = $request->input('title');
+            $task->description = $request->input('description');
+            $task->performer_id = $request->input('performer');
+            $task->status_id = $request->input('status');
+
+            $task->save();
+
+            return redirect()->route('view_project', ['id' => $task->project_id]);
+        }
+
+        //$task = Task::find($id);
+        $users = User::all();
+        $statuses = Status::all();
+        $project = Project::find($task->project_id);
+
+        return view('tasks.edit',[
+            'task' => $task,
+            'users' => $users,
+            'statuses' => $statuses,
+            'project' => $project
+        ]);
+    }
 }

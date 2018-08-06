@@ -63,5 +63,9 @@ Route::group(['prefix' => 'task'],
         Route::match(['get', 'post'], '/new/{project_id}', 'TaskController@create')
             ->middleWare('auth')
             ->name('new_task');
+
+        Route::match(['get', 'post'], '/edit/{id}', 'TaskController@edit')
+            ->middleWare('auth')
+            ->name('edit_task');
     }
 );
