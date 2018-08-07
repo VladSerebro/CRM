@@ -7,6 +7,7 @@ use App\Task as Task;
 use App\User as User;
 use App\Status as Status;
 use App\Project as Project;
+use App\Comment as Comment;
 
 class TaskController extends Controller
 {
@@ -24,8 +25,7 @@ class TaskController extends Controller
 
     public function view(Request $request, $id)
     {
-
-        $task = Task::with('master', 'performer', 'status')->find($id);
+        $task = Task::with('master', 'performer', 'status', 'comments')->find($id);
 
         return view('tasks.view', [
             'task' => $task,
@@ -54,12 +54,12 @@ class TaskController extends Controller
             ]);
 
             Task::create([
-                'title' => $request->input('title'),
-                'description' => $request->input('description'),
-                'performer_id' => $request->input('performer'),
-                'status_id' => $request->input('status'),
-                'master_id' => $request->user()->id,
-                'project_id' => $project_id
+                'title'         => $request->input('title'),
+                'description'   => $request->input('description'),
+                'performer_id'  => $request->input('performer'),
+                'status_id'     => $request->input('status'),
+                'master_id'     => $request->user()->id,
+                'project_id'    => $project_id
             ]);
 
             return redirect()->route('view_project', ['id' => $project_id]);
@@ -71,9 +71,9 @@ class TaskController extends Controller
         $project = Project::find($project_id);
 
         return view('tasks.create',[
-            'users' => $users,
-            'statuses' => $statuses,
-            'project' => $project
+            'users'     => $users,
+            'statuses'  => $statuses,
+            'project'   => $project
         ]);
     }
 
@@ -83,21 +83,38 @@ class TaskController extends Controller
 
         if($request->isMethod('post'))
         {
-            $this->validate($request, [
-                'title' => 'required|string|max:255',
-                'description' => 'required|string|max:255',
-                'performer' => 'required|string|max:255',
-                'status' => 'required|numeric'
+            // if user can modify tasks
+            if($request->user()->id === $task->master->id)
+            {
+                $this->validate($request, [
+                    'title' => 'required|string|max:255',
+                    'description' => 'required|string|max:255',
+                    'performer' => 'required|string|max:255',
+                    'status' => 'required|numeric'
+                ]);
+
+                $task->title = $request->input('title');
+                $task->description = $request->input('description');
+                $task->performer_id = $request->input('performer');
+                $task->status_id = $request->input('status');
+
+                $task->save();
+            }
+
+            if($request->input('comment') != "")
+            {
+                Comment::create([
+                    'task_id' => $task->id,
+                    'text' => $request->input('comment'),
+                    'author_id' => $request->user()->id
+                ]);
+            }
+
+
+            return redirect()->route('view_task',[
+                'id' => $task->id,
+                'request' => $request
             ]);
-
-            $task->title = $request->input('title');
-            $task->description = $request->input('description');
-            $task->performer_id = $request->input('performer');
-            $task->status_id = $request->input('status');
-
-            $task->save();
-
-            return redirect()->route('view_project', ['id' => $task->project_id]);
         }
 
         //$task = Task::find($id);
@@ -109,7 +126,8 @@ class TaskController extends Controller
             'task' => $task,
             'users' => $users,
             'statuses' => $statuses,
-            'project' => $project
+            'project' => $project,
+            'request' => $request
         ]);
     }
 }
