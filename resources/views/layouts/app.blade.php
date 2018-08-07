@@ -43,11 +43,11 @@
                             <a class="nav-link" href="{{ route('my_projects') }}">My projects <span class="sr-only">(current)</span></a>
                         </li>
 
+                        <li class="nav-item @if (Request::url() == route('my_tasks')) active @endif ">
+                            <a class="nav-link" href="{{ route('my_tasks') }}">Tasks for me <span class="sr-only">(current)</span></a>
+                        </li>
+
                         @yield('navBarInsert')
-                        {{--@section('navBarInsert')
-
-                        @endsection--}}
-
 
 
                     </ul>

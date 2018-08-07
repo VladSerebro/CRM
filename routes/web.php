@@ -56,6 +56,10 @@ Route::group(['prefix' => 'project'],
 Route::group(['prefix' => 'task'],
     function ()
     {
+        Route::get('/my_tasks', 'TaskController@my_index')
+            ->middleWare('auth')
+            ->name('my_tasks');
+
         Route::get('/view/{id}', 'TaskController@view')
             ->middleWare('auth')
             ->name('view_task');

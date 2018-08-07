@@ -10,6 +10,18 @@ use App\Project as Project;
 
 class TaskController extends Controller
 {
+    public function my_index(Request $request)
+    {
+        $my_id = $request->user()->id;
+        $tasks = Task::where(['performer_id' => $my_id])
+            ->with('master', 'performer', 'status')
+            ->get();
+
+        return view('tasks.index', [
+            'tasks' => $tasks
+        ]);
+    }
+
     public function view(Request $request, $id)
     {
 
@@ -64,7 +76,6 @@ class TaskController extends Controller
             'project' => $project
         ]);
     }
-
 
     public function edit(Request $request, $id)
     {
