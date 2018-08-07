@@ -32,27 +32,34 @@
                             <div class="form-group">
                                 <label for="task-title" class="col-sm-3 control-label">Title</label>
                                 <div class="col-sm-6">
-                                    <input type="text" name="title" id="task-title" value="{{ $task->title }}" class="form-control">
+                                    <input type="text" name="title" id="task-title" value="{{ $task->title }}" class="form-control"
+                                           @if($request->user()->id != $task->master->id) disabled @endif
+                                    >
+
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="task-description" class="col-sm-3 control-label">Description</label>
                                 <div class="col-sm-6">
-                                    <input type="text" name="description" id="task-description" value="{{ $task->description }}" class="form-control">
+                                    <input type="text" name="description" id="task-description" value="{{ $task->description }}" class="form-control"
+                                           @if($request->user()->id != $task->master->id) disabled @endif
+                                    >
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="task-performer" class="col-sm-3 control-label">Performer</label>
                                 <div class="col-sm-6">
-                                    <select name="performer" id="task-performer" class="form-control">
+                                    <select name="performer" id="task-performer" class="form-control"
+                                            @if($request->user()->id != $task->master->id) disabled @endif
+                                    >
                                         @foreach($users as $user)
                                             <option
-                                                    @if($task->performer->id === $user->id)
-                                                        selected
-                                                    @endif
-                                                    value="{{$user->id}}">{{$user->name}}
+                                                @if($task->performer->id === $user->id)
+                                                    selected
+                                                @endif
+                                                value="{{$user->id}}">{{$user->name}}
                                             </option>
                                         @endforeach
                                     </select>
@@ -74,6 +81,23 @@
                                     </select>
                                 </div>
                             </div>
+
+
+
+
+
+                            <div class="form-group">
+                                <label for="comment">Comment:</label>
+                                <textarea class="form-control" name="comment" rows="3"></textarea>
+                            </div>
+
+
+
+
+
+
+
+
 
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-6">

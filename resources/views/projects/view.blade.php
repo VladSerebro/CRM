@@ -30,7 +30,7 @@
                                     <td>{{ $project->status->name }}</td>
                                 </tr>
                                 <tr class = "table-light">
-                                    <td><b>Author</b></td>
+                                    <td><b>Master</b></td>
                                     <td>{{$project->master->name}}</td>
                                 </tr>
                                 <tr class = "table-light">

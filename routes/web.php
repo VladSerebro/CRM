@@ -73,3 +73,13 @@ Route::group(['prefix' => 'task'],
             ->name('edit_task');
     }
 );
+
+Route::group(['prefix' => 'comment'],
+    function ()
+    {
+        Route::get('/delete/{id}', 'CommentController@delete')
+            ->middleWare('auth')
+            ->name('comment_delete');
+    }
+);
+

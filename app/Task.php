@@ -29,4 +29,10 @@ class Task extends Model
     {
         return $this->belongsTo('App\Project', 'project_id', 'id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment', 'task_id')
+            ->orderBy('created_at', 'desc');
+    }
 }
