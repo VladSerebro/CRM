@@ -46,47 +46,42 @@
                                 </div>
                             </div>
 
-                            <div class="alert alert-primary mt-5" role="alert">
-                                Comments
-                            </div>
-                            <table class="table">
-                                <tbody>
-                                @foreach($task->comments as $comment)
-                                    <tr>
-                                        <td>{{ $comment->created_at }}</td>
-                                        <th>{{ $comment->author->name }}</th>
-                                        <td>{{ $comment->text }}</td>
-                                        <td>
-                                            @if($request->user()->id === $comment->author->id)
-                                            <form action="{{ route('comment_delete', ['id' => $comment->id]) }}" method="get" class="col-sm-2">
-                                                {{--{!! method_field('delete') !!}--}}
-                                                {!! csrf_field() !!}
-                                                <button type="submit" class="btn btn-danger">
-                                                    Delete
-                                                </button>
-                                            </form>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+
+                                <div class="alert alert-primary mt-5" role="alert">
+                                    Comments
+                                </div>
+                            @section('comments')
+                                <table class="table">
+                                    <tbody>
+                                    @foreach($task->comments as $comment)
+                                        <tr>
+                                            <td>{{ $comment->created_at }}</td>
+                                            <th>{{ $comment->author->name }}</th>
+                                            <td>{{ $comment->text }}</td>
+                                            <td class="row">
+                                                @if($request->user()->id === $comment->author->id)
+                                                    <form action="{{ route('comment_delete', ['id' => $comment->id]) }}" method="get" class="col-sm-2">
+                                                        {{--{!! method_field('delete') !!}--}}
+                                                        {!! csrf_field() !!}
+                                                        <button type="submit" class="btn btn-danger">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                    <form action="{{ route('edit_comment', ['id' => $comment->id]) }}" method="post" class="col-sm-9">
+                                                        {!! csrf_field() !!}
+                                                        <button type="submit" class="btn btn-primary">
+                                                            Edit
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            @show
+
                         @endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                     </div>
                 </div>

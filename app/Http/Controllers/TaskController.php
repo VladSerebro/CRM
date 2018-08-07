@@ -100,8 +100,6 @@ class TaskController extends Controller
             }
 
 
-
-
             return redirect()->route('view_task',[
                 'id' => $task->id,
                 'request' => $request
