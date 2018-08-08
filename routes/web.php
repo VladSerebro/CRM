@@ -24,9 +24,6 @@ Auth::routes();
 
 
 
-
-
-
 Route::group(['prefix' => 'project'],
     function ()
     {
@@ -89,6 +86,15 @@ Route::group(['prefix' => 'comment'],
         Route::match(['get', 'post'], '/edit/{id}', 'CommentController@edit')
             ->middleWare('auth')
             ->name('edit_comment');
+    }
+);
+
+Route::group(['prefix' => 'file'],
+    function ()
+    {
+        Route::match(['get', 'post'], '/upload_to_task/{task_id}', 'FileController@upload')
+            ->middleWare('auth')
+            ->name('upload_file');
     }
 );
 

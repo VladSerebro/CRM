@@ -35,4 +35,9 @@ class Task extends Model
         return $this->hasMany('App\Comment', 'task_id')
             ->orderBy('created_at', 'desc');
     }
+
+    public function files()
+    {
+        return $this->hasMany('App\File', 'task_id');
+    }
 }

@@ -69,6 +69,11 @@
                                     Edit
                                 </a>
                             </div>
+                            <div>
+                                <a class="btn btn-primary btn-sm" href = "{{ route('upload_file', ['id' => $task->id]) }}">
+                                    Add file
+                                </a>
+                            </div>
                         </div>
                     @endif
 
