@@ -26,6 +26,7 @@ Auth::routes();
 
 
 
+
 Route::group(['prefix' => 'project'],
     function ()
     {
@@ -85,7 +86,7 @@ Route::group(['prefix' => 'comment'],
             ->middleWare('auth')
             ->name('comment_delete');
 
-        Route::post('/edit/{id}', 'CommentController@edit')
+        Route::match(['get', 'post'], '/edit/{id}', 'CommentController@edit')
             ->middleWare('auth')
             ->name('edit_comment');
     }

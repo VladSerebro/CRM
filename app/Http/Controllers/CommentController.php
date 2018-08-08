@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Task as Task;
 use App\Comment as Comment;
 
+
 class CommentController extends Controller
 {
     public function delete($id)
@@ -22,6 +23,19 @@ class CommentController extends Controller
     {
         $edit_comment = Comment::find($id);
         $task = Task::with('master', 'performer', 'status', 'comments')->find($edit_comment->task->id);
+
+        if($request->isMethod('post'))
+        {
+            $edit_comment->text = $request->input('text');
+
+            $edit_comment->save();
+
+            return redirect()->route('view_task',[
+                'id' => $task->id,
+                'request' => $request
+            ]);
+        }
+
 
         return view('tasks.edit_comment', [
             'task' => $task,

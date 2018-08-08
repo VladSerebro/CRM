@@ -8,25 +8,51 @@
                 <td>{{ $comment->created_at }}</td>
                 <th>{{ $comment->author->name }}</th>
                 <td>
+
+
+
+
+
+
+
+
+
+
+
+
+
                     @if($edit_comment->id === $comment->id)
-                    <div class="col-sm-12">
-                        <input type="text" name="text" id="comment-text" value="{{ $comment->text }}" class="form-control">
-                    </div>
+                        <form action="{{ route('edit_comment', ['id' => $comment->id]) }}" method="post" class="col-sm-12">
+                            {!! csrf_field() !!}
+                            <div class="form-group">
+                                <textarea class="form-control" name="text" rows="3"> {{ $comment->text }} </textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Ok
+                            </button>
+                        </form>
                     @else
                         {{ $comment->text }}
                     @endif
+
+
+
+
+
+
+
+
                 </td>
+                {{--@if($edit_comment->id === $comment->id)
                 <td>
-                    {{--@if($request->user()->id === $comment->author->id)
-                        <form action="{{ route('comment_delete', ['id' => $comment->id]) }}" method="get" class="col-sm-2">
-                            --}}{{--{!! method_field('delete') !!}--}}{{--
-                            {!! csrf_field() !!}
-                            <button type="submit" class="btn btn-danger">
-                                Delete
-                            </button>
-                        </form>
-                    @endif--}}
+                    <form action="{{ route('edit_comment', ['id' => $comment->id]) }}" method="post" class="col-sm-2">
+                        {!! csrf_field() !!}
+                        <button type="submit" class="btn btn-danger">
+                            Ok
+                        </button>
+                    </form>
                 </td>
+                @endif--}}
             </tr>
         @endforeach
         </tbody>
