@@ -95,6 +95,10 @@ Route::group(['prefix' => 'file'],
         Route::match(['get', 'post'], '/upload_to_task/{task_id}', 'FileController@upload')
             ->middleWare('auth')
             ->name('upload_file');
+
+        Route::get('/delete/{id}', 'FileController@delete')
+            ->middleWare('auth')
+            ->name('delete_file');
     }
 );
 

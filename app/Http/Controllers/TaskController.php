@@ -10,6 +10,7 @@ use App\User as User;
 use App\Status as Status;
 use App\Project as Project;
 use App\Comment as Comment;
+use App\File as File;
 
 class TaskController extends Controller
 {
@@ -29,8 +30,12 @@ class TaskController extends Controller
     {
         $task = Task::with('master', 'performer', 'status', 'comments')->find($id);
 
+        //$files = $task->files();
+        $files = File::where(['task_id' => $task->id])->get();
+
         return view('tasks.view', [
             'task' => $task,
+            'files' => $files,
             'request' => $request
         ]);
     }

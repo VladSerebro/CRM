@@ -28,30 +28,26 @@ class FileController extends Controller
 
                 File::create([
                     'path' => $fileName,
-                    'task_id' => $task->id
+                    'task_id' => $task->id,
+                    'description' => $file->getClientOriginalName()
                 ]);
 
-
-
-
-
-                var_dump(asset('Storage/public/' . $fileName));
-                echo "<a href = " . Storage::url($fileName) . ">gmak</href>";
-                exit;
-
-
-
-
-
-
-
-
-
+                return redirect()->route('view_task', ['id' => $task->id]);
             }
         }
 
         return view('files.upload',[
             'task' => $task
         ]);
+    }
+
+    public function delete($id)
+    {
+        $file = File::find($id);
+        $task = Task::find($file->task_id);
+
+        File::destroy($id);
+
+        return redirect()->route('view_task', ['id' => $task->id]);
     }
 }

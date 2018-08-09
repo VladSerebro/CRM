@@ -75,6 +75,35 @@
                                 </a>
                             </div>
                         </div>
+
+                        @if($files != null)
+
+                        <div class="alert alert-primary mt-5" role="alert">
+                            Files
+                        </div>
+
+                        <table>
+                            <tbody>
+                            @foreach($files as $file)
+                                <tr>
+                                    <td>
+                                        <a href="{{ Storage::url($file->path) }}" class="badge badge-info">{{ $file->description }}</a>
+                                    </td>
+                                    <td>
+                                        {{--TODO setup button--}}
+                                        <a href="{{ route('delete_file', ['id' => $file->id]) }}" class="btn btn-sm btn-danger">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                            Del
+                                    </td>
+                                </tr>
+
+                            @endforeach
+                            </tbody>
+                        </table>
+
+
+
+                        @endif
                     @endif
 
 

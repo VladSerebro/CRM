@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Task as Task;
 use App\Comment as Comment;
+use App\File as File;
 
 
 class CommentController extends Controller
@@ -23,6 +24,7 @@ class CommentController extends Controller
     {
         $edit_comment = Comment::find($id);
         $task = Task::with('master', 'performer', 'status', 'comments')->find($edit_comment->task->id);
+        $files = File::where(['task_id' => $task->id])->get();
 
         if($request->isMethod('post'))
         {
@@ -40,6 +42,7 @@ class CommentController extends Controller
         return view('tasks.edit_comment', [
             'task' => $task,
             'edit_comment' => $edit_comment,
+            'files' => $files,
             'request' => $request
         ]);
     }
