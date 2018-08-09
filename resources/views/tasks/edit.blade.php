@@ -26,7 +26,7 @@
                     <div class="panel-heading">Create</div>
 
                     <div class="panel-body">
-                        <form action="{{route('edit_task', ['id' => $task->id])}}" method="post" class="form-horizontal">
+                        <form action="{{route('edit_task', ['project_id' => $project_id, 'id' => $task->id])}}" method="post" class="form-horizontal">
                             {{ csrf_field() }}
 
                             <div class="form-group">

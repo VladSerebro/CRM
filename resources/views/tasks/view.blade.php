@@ -57,7 +57,7 @@
 
                     @if($request->user()->id === $task->master->id)
                         <div class="row pt-3">
-                            <form action="{{ route('delete_task', ['id' => $task->id]) }}" method="post" class="col-sm-1">
+                            <form action="{{ route('delete_task', ['project_id' => $project_id , 'task_id' => $task->id]) }}" method="post" class="col-sm-1">
                                 {!! method_field('delete') !!}
                                 {!! csrf_field() !!}
                                 <button type="submit" class="btn btn-danger btn-sm">
@@ -65,7 +65,7 @@
                                 </button>
                             </form>
                             <div class="col-sm-3">
-                                <a class="btn btn-primary btn-sm" href = "{{ route('edit_task', ['id' => $task->id]) }}">
+                                <a class="btn btn-primary btn-sm" href = "{{ route('edit_task', ['project_id' => $project_id , 'task_id' => $task->id]) }}">
                                     Edit
                                 </a>
                             </div>
@@ -123,11 +123,19 @@
                                             @if($request->user()->id === $comment->author->id)
                                                 <div class="row">
                                                     <div class="col-sm-6">
-                                                        <a class="btn btn-primary btn-sm" href = "{{ route('edit_comment', ['id' => $comment->id])}}">
+                                                        <a class="btn btn-primary btn-sm" href = "{{ route('edit_comment', [
+                                                            'project_id' => $project_id,
+                                                            'task_id' => $task->id,
+                                                            'comment_id' => $comment->id
+                                                        ])}}">
                                                             Edit
                                                         </a>
                                                     </div>
-                                                    <form action="{{ route('comment_delete', ['id' => $comment->id]) }}" method="get">
+                                                    <form action="{{ route('delete_comment', [
+                                                        'project_id' => $project_id,
+                                                        'task_id' => $task->id,
+                                                        'comment_id' => $comment->id
+                                                    ]) }}" method="get">
                                                         {{--{!! method_field('delete') !!}--}}
                                                         {!! csrf_field() !!}
                                                         <button type="submit" class="btn btn-danger btn-sm">

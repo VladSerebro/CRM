@@ -24,6 +24,9 @@ Auth::routes();
 
 
 
+
+
+
 Route::group(['prefix' => 'project'],
     function ()
     {
@@ -39,13 +42,52 @@ Route::group(['prefix' => 'project'],
             ->middleWare('auth')
             ->name('new_project');
 
+        Route::delete('delete/{id}', 'ProjectController@delete')
+            ->middleWare('auth')
+            ->name('delete_project');
+
         Route::get('/view/{id}', 'ProjectController@view')
             ->middleWare('auth')
             ->name('view_project');
 
-        Route::delete('delete/{id}', 'ProjectController@delete')
-            ->middleWare('auth')
-            ->name('delete_project');
+
+        /*======= Tasks ========*/
+        Route::group(['prefix' => '{project_id}/task'],
+            function ()
+            {
+                Route::get('/view/{id}', 'TaskController@view')
+                    ->middleWare('auth')
+                    ->name('view_task');
+
+                Route::match(['get', 'post'], '/new', 'TaskController@create')
+                    ->middleWare('auth')
+                    ->name('new_task');
+
+                Route::delete('delete/{id}', 'TaskController@delete')
+                    ->middleWare('auth')
+                    ->name('delete_task');
+
+                Route::match(['get', 'post'], '/edit/{id}', 'TaskController@edit')
+                    ->middleWare('auth')
+                    ->name('edit_task');
+
+
+                /*======= Comments ========*/
+                Route::group(['prefix' => '{task_id}/comment'],
+                    function ()
+                    {
+                        Route::get('/delete/{id}', 'CommentController@delete')
+                            ->middleWare('auth')
+                            ->name('delete_comment');
+
+                        Route::match(['get', 'post'], '/edit/{id}', 'CommentController@edit')
+                            ->middleWare('auth')
+                            ->name('edit_comment');
+                    }
+                );
+            }
+        );
+
     }
 );
 
@@ -58,34 +100,34 @@ Route::group(['prefix' => 'task'],
             ->middleWare('auth')
             ->name('my_tasks');
 
-        Route::get('/view/{id}', 'TaskController@view')
+        /*Route::get('/view/{id}', 'TaskController@view')
             ->middleWare('auth')
-            ->name('view_task');
+            ->name('view_task');*/
 
-        Route::delete('delete/{id}', 'TaskController@delete')
+        /*Route::delete('delete/{id}', 'TaskController@delete')
             ->middleWare('auth')
-            ->name('delete_task');
+            ->name('delete_task');*/
 
-        Route::match(['get', 'post'], '/new/{project_id}', 'TaskController@create')
+        /*Route::match(['get', 'post'], '/new/{project_id}', 'TaskController@create')
             ->middleWare('auth')
-            ->name('new_task');
+            ->name('new_task');*/
 
-        Route::match(['get', 'post'], '/edit/{id}', 'TaskController@edit')
+        /*Route::match(['get', 'post'], '/edit/{id}', 'TaskController@edit')
             ->middleWare('auth')
-            ->name('edit_task');
+            ->name('edit_task');*/
     }
 );
 
 Route::group(['prefix' => 'comment'],
     function ()
     {
-        Route::get('/delete/{id}', 'CommentController@delete')
+        /*Route::get('/delete/{id}', 'CommentController@delete')
             ->middleWare('auth')
-            ->name('comment_delete');
+            ->name('comment_delete');*/
 
-        Route::match(['get', 'post'], '/edit/{id}', 'CommentController@edit')
+        /*Route::match(['get', 'post'], '/edit/{id}', 'CommentController@edit')
             ->middleWare('auth')
-            ->name('edit_comment');
+            ->name('edit_comment');*/
     }
 );
 

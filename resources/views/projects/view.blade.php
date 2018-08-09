@@ -79,54 +79,15 @@
                                     <td scope="col">{{ $task->title }}</td>
                                     <td scope="col">{{ $task->performer->name }}</td>
                                     <td scope="col">{{ $task->status->name }}</td>
-                                    <td scope="col"><a href="{{ route('view_task', ['id' => $task->id]) }}">View</a></td>
+                                    <td scope="col"><a href="{{ route('view_task', [
+                                        'project_id' => $project->id,
+                                        'task_id' => $task->id,
+                                    ]) }}">View</a></td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                      {{--  <div>
-
-                            {{ $task->performer->name }} --> {{ $task->title }}
-
-
-                            <a class="btn btn-primary" href = "{{ route('view_task', ['id' => $task->id]) }}">
-                                 View
-                            </a>
-                            @if($request->user()->id === $project->master->id)
-                                <form action="{{ route('delete_task', ['id' => $task->id]) }}" method="post">
-                                    {!! method_field('delete') !!}
-                                    {!! csrf_field() !!}
-                                    <button type="submit" class="btn btn-danger">
-                                        Delete
-                                    </button>
-                                </form>
-                            @endif
-
-                        </div>--}}
-
-
-
                 </div>
             </div>
         </div>

@@ -26,26 +26,22 @@ class TaskController extends Controller
         ]);
     }
 
-    public function view(Request $request, $id)
+    public function view(Request $request, $project_id, $task_id)
     {
-        $task = Task::with('master', 'performer', 'status', 'comments')->find($id);
-
-        //$files = $task->files();
-        $files = File::where(['task_id' => $task->id])->get();
+        $task = Task::with('master', 'performer', 'status', 'comments')->find($task_id);
+        $files = File::where(['task_id' => $task_id])->get();
 
         return view('tasks.view', [
+            'project_id' => $project_id,
             'task' => $task,
             'files' => $files,
             'request' => $request
         ]);
     }
 
-    public function delete($id)
+    public function delete($project_id, $task_id)
     {
-        $task = Task::with('project')->find($id);
-        $project_id = $task->project->id;
-
-        Task::destroy($id);
+        Task::destroy($task_id);
         return redirect()->route('view_project', ['id' => $project_id]);
     }
 
@@ -70,7 +66,6 @@ class TaskController extends Controller
             ]);
 
             return redirect()->route('view_project', ['id' => $project_id]);
-
         }
 
         $users = User::all();
@@ -84,13 +79,13 @@ class TaskController extends Controller
         ]);
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $project_id, $task_id)
     {
-        $task = Task::find($id);
+        $task = Task::find($task_id);
 
         if($request->isMethod('post'))
         {
-            // if user can modify tasks
+            // Can user modify tasks?
             if($request->user()->id === $task->master->id)
             {
                 $this->validate($request, [
@@ -117,23 +112,21 @@ class TaskController extends Controller
                 ]);
             }
 
-
             return redirect()->route('view_task',[
-                'id' => $task->id,
+                'project_id' => $project_id,
+                'task_id' => $task->id,
                 'request' => $request
             ]);
         }
 
-        //$task = Task::find($id);
         $users = User::all();
         $statuses = Status::all();
-        $project = Project::find($task->project_id);
 
         return view('tasks.edit',[
             'task' => $task,
             'users' => $users,
             'statuses' => $statuses,
-            'project' => $project,
+            'project_id' => $project_id,
             'request' => $request
         ]);
     }

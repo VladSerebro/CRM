@@ -10,21 +10,20 @@ use App\File as File;
 
 class CommentController extends Controller
 {
-    public function delete($id)
+    public function delete($project_id, $task_id, $comment_id)
     {
-        $comment = Comment::find($id);
-
-        Comment::destroy($id);
-
-        return redirect()->route('view_task', ['id' => $comment->task->id]);
+        Comment::destroy($comment_id);
+        return redirect()->route('view_task', ['project_id' => $project_id, 'task_id' => $task_id]);
 
     }
 
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $project_id, $task_id, $comment_id)
     {
-        $edit_comment = Comment::find($id);
-        $task = Task::with('master', 'performer', 'status', 'comments')->find($edit_comment->task->id);
-        $files = File::where(['task_id' => $task->id])->get();
+        $task = Task::with('master', 'performer', 'status', 'comments')->find($task_id);
+        $files = File::where(['task_id' => $task_id])->get();
+        $edit_comment = Comment::find($comment_id);
+
+
 
         if($request->isMethod('post'))
         {
@@ -33,17 +32,21 @@ class CommentController extends Controller
             $edit_comment->save();
 
             return redirect()->route('view_task',[
-                'id' => $task->id,
-                'request' => $request
+                'project_id' => $project_id,
+                'task_id' => $task_id,
             ]);
         }
 
 
+
         return view('tasks.edit_comment', [
+            'project_id' => $project_id,
             'task' => $task,
-            'edit_comment' => $edit_comment,
             'files' => $files,
-            'request' => $request
+            'request' => $request,
+
+            'edit_comment' => $edit_comment
+
         ]);
     }
 }
