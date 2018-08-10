@@ -16,11 +16,27 @@
 
 
 Route::get('/', function(){
-
     return redirect()->route('all_projects');
 });
 
 Auth::routes();
+
+
+
+
+
+
+/*============*/
+
+Route::match(['post', 'get'], '/test', 'TestController@index')->name('test');
+
+/*Route::get( '/test', array(
+       'as' => 'test',
+       'uses' => 'TestController@index'
+   ) );*/
+
+/*============*/
+
 
 
 
@@ -102,7 +118,6 @@ Route::group(['prefix' => 'project'],
                 );
             }
         );
-
     }
 );
 
