@@ -6,7 +6,10 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
 
-                    <form method="post" action="{{ route('upload_file', ['task_id' => $task->id]) }}" enctype="multipart/form-data" class="form-horizontal">
+                    <form method = "post"
+                          action = "{{ route('upload_file', ['project_id' => $project_id, 'task_id' => $task_id]) }}"
+                          enctype = "multipart/form-data"
+                          class = "form-horizontal">
                         {{ csrf_field() }}
 
                         <div class="form-group">

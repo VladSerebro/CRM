@@ -70,7 +70,7 @@
                                 </a>
                             </div>
                             <div>
-                                <a class="btn btn-primary btn-sm" href = "{{ route('upload_file', ['id' => $task->id]) }}">
+                                <a class="btn btn-primary btn-sm" href = "{{ route('upload_file', ['project_id' => $project_id , 'task_id' => $task->id]) }}">
                                     Add file
                                 </a>
                             </div>
@@ -90,21 +90,22 @@
                                         <a href="{{ Storage::url($file->path) }}" class="badge badge-info">{{ $file->description }}</a>
                                     </td>
                                     <td>
-                                        {{--TODO setup button--}}
-                                        <a href="{{ route('delete_file', ['id' => $file->id]) }}" class="btn btn-sm btn-danger">
+                                        <a href="{{ route('delete_file', [
+                                            'project_id' => $project_id,
+                                            'task_id' => $task->id,
+                                            'file_id' => $file->id
+                                          ]) }}" class="btn btn-sm btn-danger">
                                             <span class="glyphicon glyphicon-remove"></span>
                                             Del
+                                        </a>
                                     </td>
                                 </tr>
 
                             @endforeach
                             </tbody>
                         </table>
-
-
-
-                        @endif
-                    @endif
+                        @endif {{-- @if($files != null) --}}
+                    @endif {{-- @if($request->user()->id === $task->master->id) --}}
 
 
                     <div class="panel-body">
@@ -151,9 +152,6 @@
                             </table>
                         @show
                     </div>
-
-
-
                 </div>
             </div>
         </div>

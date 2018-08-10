@@ -85,6 +85,21 @@ Route::group(['prefix' => 'project'],
                             ->name('edit_comment');
                     }
                 );
+
+
+                /*======= Files ========*/
+                Route::group(['prefix' => '{task_id}/file'],
+                    function ()
+                    {
+                        Route::match(['get', 'post'], '/upload', 'FileController@upload')
+                            ->middleWare('auth')
+                            ->name('upload_file');
+
+                        Route::get('/delete/{id}', 'FileController@delete')
+                            ->middleWare('auth')
+                            ->name('delete_file');
+                    }
+                );
             }
         );
 
@@ -134,13 +149,13 @@ Route::group(['prefix' => 'comment'],
 Route::group(['prefix' => 'file'],
     function ()
     {
-        Route::match(['get', 'post'], '/upload_to_task/{task_id}', 'FileController@upload')
+        /*Route::match(['get', 'post'], '/upload_to_task/{task_id}', 'FileController@upload')
             ->middleWare('auth')
-            ->name('upload_file');
+            ->name('upload_file');*/
 
-        Route::get('/delete/{id}', 'FileController@delete')
+        /*Route::get('/delete/{id}', 'FileController@delete')
             ->middleWare('auth')
-            ->name('delete_file');
+            ->name('delete_file');*/
     }
 );
 

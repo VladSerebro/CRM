@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-    public function upload(Request $request, $task_id)
+    public function upload(Request $request, $project_id, $task_id)
     {
-        $task = Task::find($task_id);
-
-        if($request->isMethod('post')) {
-            if($request->user()->id === $task->master->id) {
-
+        if($request->isMethod('post'))
+        {
+            $task = Task::find($task_id);
+            if($request->user()->id === $task->master->id)
+            {
                 $this->validate($request,[
                     'userfile' => 'required'
                 ]);
@@ -32,22 +32,23 @@ class FileController extends Controller
                     'description' => $file->getClientOriginalName()
                 ]);
 
-                return redirect()->route('view_task', ['id' => $task->id]);
+                return redirect()->route('view_task', ['project_id' => $project_id, 'task_id' => $task_id]);
             }
         }
 
         return view('files.upload',[
-            'task' => $task
+            'project_id'    => $project_id,
+            'task_id'       => $task_id,
         ]);
     }
 
-    public function delete($id)
+    public function delete($project_id, $task_id, $file_id)
     {
-        $file = File::find($id);
-        $task = Task::find($file->task_id);
+/*        $file = File::find($id);
+        $task = Task::find($file->task_id);*/
 
-        File::destroy($id);
+        File::destroy($file_id);
 
-        return redirect()->route('view_task', ['id' => $task->id]);
+        return redirect()->route('view_task', ['project_id' => $project_id, 'task_id' => $task_id]);
     }
 }

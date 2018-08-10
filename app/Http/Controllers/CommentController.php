@@ -37,8 +37,6 @@ class CommentController extends Controller
             ]);
         }
 
-
-
         return view('tasks.edit_comment', [
             'project_id' => $project_id,
             'task' => $task,
