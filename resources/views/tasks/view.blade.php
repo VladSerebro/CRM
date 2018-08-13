@@ -119,11 +119,74 @@
                                     <tr>
                                         <td>{{ $comment->created_at }}</td>
                                         <th>{{ $comment->author->name }}</th>
-                                        <td>{{ $comment->text }}</td>
+                                        <td>
+                                            <div id={{ $comment->id . 'com' }}>
+                                                {{ $comment->text }}
+                                            </div>
+                                                <textarea  style="display: none" id={{ $comment->id . 'txt'}} class="form-control"
+                                                          name="text"
+                                                          rows="3">
+                                                    {{ $comment->text }}
+                                                </textarea>
+                                        </td>
                                         <td>
                                             @if($request->user()->id === $comment->author->id)
                                                 <div class="row">
-                                                    <div class="col-sm-6">
+
+                                                    <div id={{ $comment->id . 'btnEdit' }} class="col-sm-6">
+                                                        <input type="button"
+                                                               value="Edit"
+                                                               onclick="btnEditComment_Click({{ $comment->id }})">
+                                                    </div>
+                                                    <div  style="display: none" id={{ $comment->id . 'btnSave' }} class="col-sm-6">
+                                                        <input type="button"
+                                                               value="Save"
+                                                               onclick="btnSaveComment_Click( {{ $comment->id }} )">
+                                                    </div>
+
+
+
+                                                    <script>
+                                                        function btnEditComment_Click($idComment) {
+                                                            $('#' + $idComment + 'com').hide();
+                                                            $('#' + $idComment + 'txt').show();
+                                                            $('#' + $idComment + 'btnEdit').hide();
+                                                            $('#' + $idComment + 'btnSave').show();
+
+                                                        }
+
+                                                        function btnSaveComment_Click($idComment){
+
+                                                            txtAreaObj = $('#' + $idComment + 'txt');
+                                                            txtCommentObj = $('#' + $idComment + 'com');
+
+                                                            str = txtAreaObj.val();
+                                                            txtCommentObj.text(str);
+                                                            txtCommentObj.show();
+
+                                                            txtAreaObj.hide();
+                                                            $('#' + $idComment + 'btnEdit').show();
+                                                            $('#' + $idComment + 'btnSave').hide();
+
+                                                            $.ajax({
+                                                                url: '/project/0/task/0/comment/edit/' + $idComment,
+                                                                method: 'POST',
+                                                                data: {
+                                                                    _token: "{{ csrf_token() }}",
+                                                                    textVal: str
+                                                                },
+                                                                success: function(data){
+                                                                    //alert('saved successfully');
+                                                                }
+                                                            });
+                                                        }
+                                                    </script>
+
+
+
+
+
+                                                    {{--<div class="col-sm-6">
                                                         <a class="btn btn-primary btn-sm" href = "{{ route('edit_comment', [
                                                             'project_id' => $project_id,
                                                             'task_id' => $task->id,
@@ -131,7 +194,7 @@
                                                         ])}}">
                                                             Edit
                                                         </a>
-                                                    </div>
+                                                    </div>--}}
                                                     <form action="{{ route('delete_comment', [
                                                         'project_id' => $project_id,
                                                         'task_id' => $task->id,

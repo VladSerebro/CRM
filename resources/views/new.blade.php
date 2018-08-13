@@ -18,7 +18,7 @@
                 method: 'POST',
                 data: {
                     _token: "{{ csrf_token() }}",
-                    text: textValue
+                    text: text
                 },
                 success: function(data) {
                     alert(data);
