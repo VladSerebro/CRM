@@ -44,10 +44,11 @@ class FileController extends Controller
 
     public function delete($project_id, $task_id, $file_id)
     {
-/*        $file = File::find($id);
-        $task = Task::find($file->task_id);*/
 
         File::destroy($file_id);
+
+        /*TODO delete file from storage*/
+
 
         return redirect()->route('view_task', ['project_id' => $project_id, 'task_id' => $task_id]);
     }
