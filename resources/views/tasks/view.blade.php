@@ -107,7 +107,6 @@
                         @endif {{-- @if($files != null) --}}
                     @endif {{-- @if($request->user()->id === $task->master->id) --}}
 
-
                     <div class="panel-body">
                         <div class="alert alert-primary mt-5" role="alert">
                             Comments
@@ -120,81 +119,82 @@
                                         <td>{{ $comment->created_at }}</td>
                                         <th>{{ $comment->author->name }}</th>
                                         <td>
-                                            <div id={{ $comment->id . 'com' }}>
+                                            <div id={{ 'comment_text' . $comment->id }}>
                                                 {{ $comment->text }}
                                             </div>
-                                                <textarea  style="display: none" id={{ $comment->id . 'txt'}} class="form-control"
-                                                          name="text"
-                                                          rows="3">
-                                                    {{ $comment->text }}
-                                                </textarea>
+                                            <textarea style="display: none" id={{ 'comment_editor' . $comment->id }} class="form-control"
+                                                      name="text"
+                                                      rows="3">
+                                                {{ $comment->text }}
+                                            </textarea>
                                         </td>
                                         <td>
                                             @if($request->user()->id === $comment->author->id)
                                                 <div class="row">
 
-                                                    <div id={{ $comment->id . 'btnEdit' }} class="col-sm-6">
-                                                        <input type="button"
-                                                               value="Edit"
-                                                               onclick="btnEditComment_Click({{ $comment->id }})">
-                                                    </div>
-                                                    <div  style="display: none" id={{ $comment->id . 'btnSave' }} class="col-sm-6">
-                                                        <input type="button"
-                                                               value="Save"
-                                                               onclick="btnSaveComment_Click( {{ $comment->id }} )">
-                                                    </div>
-
-
+                                                    <button class="btn-edit btn btn-primary btn-sm" id={{ 'btn_edit' . $comment->id }}>Edit</button>
+                                                    <button class="btn-save btn btn-primary btn-sm" style="display: none" id={{ 'btn_save' . $comment->id }}>Save</button>
 
                                                     <script>
-                                                        function btnEditComment_Click($idComment) {
-                                                            $('#' + $idComment + 'com').hide();
-                                                            $('#' + $idComment + 'txt').show();
-                                                            $('#' + $idComment + 'btnEdit').hide();
-                                                            $('#' + $idComment + 'btnSave').show();
+                                                        $(document).ready(function() {
+                                                            $('.btn-edit').click(function(event){
+                                                                event.preventDefault();
 
-                                                        }
+                                                                var str_id = event.target.id,
+                                                                comment_id = str_id.replace('btn_edit', ""),
 
-                                                        function btnSaveComment_Click($idComment){
+                                                                btnEdit = $(this),
+                                                                btnSave = $('#btn_save' + comment_id),
+                                                                commentObj = $('#comment_text' + comment_id),
+                                                                editorObj = $('#comment_editor' + comment_id);
 
-                                                            txtAreaObj = $('#' + $idComment + 'txt');
-                                                            txtCommentObj = $('#' + $idComment + 'com');
+                                                                btnEdit.hide();
+                                                                btnSave.show();
+                                                                commentObj.hide();
+                                                                editorObj.show();
 
-                                                            str = txtAreaObj.val();
-                                                            txtCommentObj.text(str);
-                                                            txtCommentObj.show();
-
-                                                            txtAreaObj.hide();
-                                                            $('#' + $idComment + 'btnEdit').show();
-                                                            $('#' + $idComment + 'btnSave').hide();
-
-                                                            $.ajax({
-                                                                url: '/project/0/task/0/comment/edit/' + $idComment,
-                                                                method: 'POST',
-                                                                data: {
-                                                                    _token: "{{ csrf_token() }}",
-                                                                    textVal: str
-                                                                },
-                                                                success: function(data){
-                                                                    //alert('saved successfully');
-                                                                }
+                                                                editorObj.text(commentObj.text());
                                                             });
-                                                        }
+
+
+                                                            $('.btn-save').click(function(event){
+                                                                event.preventDefault();
+
+                                                                var str_id = event.target.id,
+                                                                comment_id = str_id.replace('btn_save', ""),
+
+                                                                btnSave = $(this),
+                                                                btnEdit = $('#btn_edit' + comment_id),
+                                                                commentObj = $('#comment_text' + comment_id),
+                                                                editorObj = $('#comment_editor' + comment_id);
+
+                                                                btnSave.hide();
+                                                                btnEdit.show();
+                                                                editorObj.hide();
+                                                                commentObj.show();
+
+                                                                var str = editorObj[0].value;
+
+                                                                commentObj.text(str);
+
+                                                                $.ajax({
+                                                                    url: '/project/0/task/0/comment/edit/' + comment_id,
+                                                                    method: 'POST',
+                                                                    data: {
+                                                                        _token: "{{ csrf_token() }}",
+                                                                        textVal: str
+                                                                    },
+                                                                    success: function(data){
+                                                                        //alert('saved successfully');
+                                                                    }
+                                                                });
+                                                            });
+                                                        });
+
                                                     </script>
 
 
 
-
-
-                                                    {{--<div class="col-sm-6">
-                                                        <a class="btn btn-primary btn-sm" href = "{{ route('edit_comment', [
-                                                            'project_id' => $project_id,
-                                                            'task_id' => $task->id,
-                                                            'comment_id' => $comment->id
-                                                        ])}}">
-                                                            Edit
-                                                        </a>
-                                                    </div>--}}
                                                     <form action="{{ route('delete_comment', [
                                                         'project_id' => $project_id,
                                                         'task_id' => $task->id,
@@ -206,6 +206,7 @@
                                                             Delete
                                                         </button>
                                                     </form>
+
                                                 </div>
                                             @endif
                                         </td>

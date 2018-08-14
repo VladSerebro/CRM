@@ -1,4 +1,4 @@
-@extends('tasks.view')
+@extends('view(v1).blade.php')
 
 @section('comments')
     <table class="table">
