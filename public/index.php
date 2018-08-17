@@ -8,6 +8,7 @@
  */
 
 define('LARAVEL_START', microtime(true));
+define('ROOT', dirname(__DIR__, 1));
 
 /*
 |--------------------------------------------------------------------------

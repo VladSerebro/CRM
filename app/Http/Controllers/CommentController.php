@@ -50,9 +50,6 @@ class CommentController extends Controller
 
     public function edit(Request $request, $project_id = null, $task_id = null, $comment_id = null)
     {
-/*        return response($_POST['textVal']);*/
-
-
         if($_POST != null)
         {
             $comment = Comment::find($comment_id);

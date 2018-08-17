@@ -51,4 +51,51 @@ $(document).ready(function() {
             }
         });
     });
+
+
+    // Button Upload file
+    $('#btn_upload_file').click(function (event) {
+        event.preventDefault();
+        $('.input-file').click();
+    });
+
+
+    // input-file_Change
+    $('.input-file').change(function (event) {
+        event.preventDefault();
+
+        var str_id = event.target.id,
+            task_id = str_id.replace('input_file_to_task', "");
+
+        var file = $('input[type=file]')[0].files[0];
+        var reader = new FileReader();
+
+        reader.readAsText(file);
+
+        reader.onload = function(e) {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: '/project/0/task/' + task_id + '/file/upload',
+                method: 'POST',
+                data: {
+                    contents: reader.result,
+                    fileName: file.name
+                },
+                success: function(data){
+                    alert(data);
+                    location.reload();
+                }
+            });
+        };
+
+    });
+
+
+
 });

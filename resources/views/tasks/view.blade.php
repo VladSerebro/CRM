@@ -70,9 +70,13 @@
                                 </a>
                             </div>
                             <div>
-                                <a class="btn btn-primary btn-sm" href = "{{ route('upload_file', ['project_id' => $project_id , 'task_id' => $task->id]) }}">
+                                <button class="btn btn-primary btn-sm" id='btn_upload_file'>Upload file</button>
+                                <input class="input-file" id="{{ 'input_file_to_task' . $task->id }}" type="file" name="userfile" hidden>
+
+                                {{--OLD CODE--}}
+                                {{--<a class="btn btn-primary btn-sm" href = "{{ route('upload_file', ['project_id' => $project_id , 'task_id' => $task->id]) }}">
                                     Add file
-                                </a>
+                                </a>--}}
                             </div>
                         </div>
 
@@ -161,6 +165,6 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="{{ URL::asset('js/editComment.js') }}"></script>
+    <script type="text/javascript" src="{{ URL::asset('js/taskView.js') }}"></script>
 
 @endsection

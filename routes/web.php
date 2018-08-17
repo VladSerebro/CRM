@@ -26,16 +26,13 @@ Auth::routes();
 
 
 
-/*============*/
+/*======--------------------------------------------------------======*/
 
-Route::match(['post', 'get'], '/test', 'TestController@index')->name('test');
+Route::get('test', function() {
+    Storage::disk('google')->put('test.txt', 'Hello World');
+});
 
-/*Route::get( '/test', array(
-       'as' => 'test',
-       'uses' => 'TestController@index'
-   ) );*/
-
-/*============*/
+/*======--------------------------------------------------------======*/
 
 
 
