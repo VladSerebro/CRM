@@ -14,8 +14,8 @@ class ExampleTest extends TestCase
      */
     public function testBasicTest()
     {
-        $response = $this->get('/');
+        $response = $this->get('http://crm.loc:8000/project/all');
 
-        $response->assertStatus(200);
+        $response->assertStatus(302);
     }
 }

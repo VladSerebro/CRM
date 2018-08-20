@@ -129,15 +129,9 @@ class FileController extends Controller
 
 
 
-//return response('ok');
 
 
-
-
-
-
-
-        /*OLD CODE
+        /*OLD CODE (without js)
         if($request->isMethod('post'))
         {
             $task = Task::find($task_id);
@@ -180,8 +174,6 @@ class FileController extends Controller
 
         /*Deleting file from DB*/
         File::destroy($file_id);
-
-
 
         return redirect()->route('view_task', ['project_id' => $project_id, 'task_id' => $task_id]);
     }

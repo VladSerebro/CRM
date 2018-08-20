@@ -24,7 +24,7 @@
                                     <td scope="col">{{ $task->title }}</td>
                                     <td scope="col">{{ $task->project->master->name }}</td>
                                     <td scope="col">{{ $task->status->name }}</td>
-                                    <td scope="col"><a href="{{ route('view_task', ['id' => $task->id]) }}">View</a></td>
+                                    <td scope="col"><a href="{{ route('view_task', ['project_id' => $task->project_id , 'task_id' => $task->id]) }}">View</a></td>
                                 </tr>
                             @endforeach
                             </tbody>

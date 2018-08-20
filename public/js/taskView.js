@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+
+    // Button Edit comment click
     $('.btn-edit').click(function(event){
         event.preventDefault();
 
@@ -19,6 +22,7 @@ $(document).ready(function() {
     });
 
 
+    // Button Save comment click
     $('.btn-save').click(function(event){
         event.preventDefault();
 
@@ -93,7 +97,6 @@ $(document).ready(function() {
                 }
             });
         };
-
     });
 
 

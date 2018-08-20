@@ -1,0 +1,35 @@
+<?php
+
+namespace Tests\Feature;
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\User as User;
+
+class RegistrationPageTest extends TestCase
+{
+
+    public function testRegistrationAvailable()
+    {
+        $admin = User::find(3);
+
+        $response = $this->actingAs($admin)
+            ->get(route('all_projects', [], false));
+
+        $response->assertStatus(200);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testLoginPage()
+    {
+        $this->visit('/login')
+            ->type('Vold@mail.com', 'email')
+            ->type('123123', 'password')
+            ->press('Login')
+            ->seePageIs('project/all');
+    }
+}
